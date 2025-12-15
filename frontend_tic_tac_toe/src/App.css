@@ -2,6 +2,9 @@
   /* Bound at runtime from App.js, defaults provided for safety */
   --ttt-primary: #3b82f6;
   --ttt-success: #06b6d4;
+  --ttt-error: #EF4444;              /* red accent */
+  --ttt-error-dark: #DC2626;         /* darker red for hover/focus */
+  --ttt-error-shadow: rgba(239,68,68,.28); /* red shadow */
   --ttt-bg: #f9fafb;
   --ttt-surface: #ffffff;
   --ttt-text: #111827;
@@ -145,7 +148,7 @@ body {
 }
 
 .ttt-btn {
-  background: var(--ttt-primary);
+  background: var(--ttt-error);
   color: white;
   border: none;
   border-radius: 10px;
@@ -153,18 +156,20 @@ body {
   font-weight: 700;
   letter-spacing: .2px;
   cursor: pointer;
-  box-shadow: 0 6px 14px rgba(59,130,246,.25);
-  transition: transform .08s ease, filter .2s ease, box-shadow .2s ease;
+  box-shadow: 0 6px 14px var(--ttt-error-shadow);
+  transition: transform .08s ease, filter .2s ease, box-shadow .2s ease, background-color .2s ease;
 }
 
 .ttt-btn:hover {
   filter: brightness(1.03);
   transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(59,130,246,.3);
+  background: var(--ttt-error-dark);
+  box-shadow: 0 8px 18px rgba(239,68,68,.34);
 }
 
 .ttt-btn:active {
   transform: translateY(0);
+  filter: brightness(0.98);
 }
 
 .ttt-footer {
