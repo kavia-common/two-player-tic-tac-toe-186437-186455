@@ -1,104 +1,183 @@
-/* CSS Variables for Theme Management */
 :root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
+  /* Bound at runtime from App.js, defaults provided for safety */
+  --ttt-primary: #3b82f6;
+  --ttt-success: #06b6d4;
+  --ttt-bg: #f9fafb;
+  --ttt-surface: #ffffff;
+  --ttt-text: #111827;
+  --ttt-border: #e5e7eb;
 }
 
-[data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
+* { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
 }
 
-.App {
-  text-align: center;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+body {
+  margin: 0;
+  background: var(--ttt-bg);
+  color: var(--ttt-text);
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.ttt-navbar {
+  width: 100%;
+  background: var(--ttt-surface);
+  border-bottom: 1px solid var(--ttt-border);
+  padding: 14px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.ttt-brand {
+  font-weight: 700;
+  letter-spacing: .2px;
+  color: var(--ttt-primary);
 }
 
-.App-header {
-  background-color: var(--bg-secondary);
-  min-height: 100vh;
+.ttt-app {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+}
+
+.ttt-main {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.ttt-card {
+  width: 100%;
+  max-width: 520px;
+  background: var(--ttt-surface);
+  border: 1px solid var(--ttt-border);
+  border-radius: 14px;
+  padding: 18px 18px 14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.06);
+}
+
+.ttt-status {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.ttt-indicator {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
-}
-
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
-}
-
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 14px;
+  min-height: 40px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: #f3f4f6;
+  border: 1px solid var(--ttt-border);
+  color: var(--ttt-text);
   font-weight: 600;
+}
+
+.ttt-indicator.x {
+  outline: 2px solid var(--ttt-primary);
+  outline-offset: 2px;
+}
+
+.ttt-indicator.o {
+  outline: 2px solid var(--ttt-success);
+  outline-offset: 2px;
+}
+
+.ttt-indicator-finished {
+  background: #ecfeff;
+  color: #075985;
+  border-color: #a5f3fc;
+}
+
+.ttt-board {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 8px;
+  background: #f3f4f6;
+  border-radius: 12px;
+  border: 1px solid var(--ttt-border);
+}
+
+.ttt-cell {
+  background: var(--ttt-surface);
+  border: 1px solid var(--ttt-border);
+  border-radius: 12px;
+  font-size: clamp(28px, 8vw, 48px);
+  font-weight: 800;
+  color: var(--ttt-text);
+  display: grid;
+  place-items: center;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform .08s ease, background .2s ease, border-color .2s ease;
+  user-select: none;
+  height: 100%;
 }
 
-.theme-toggle:hover {
+.ttt-cell:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+  border-color: var(--ttt-primary);
 }
 
-.theme-toggle:active {
+.ttt-cell:disabled {
+  cursor: default;
+  opacity: 0.95;
+}
+
+.ttt-cell-win {
+  background: rgba(59, 130, 246, 0.08);
+  border-color: var(--ttt-primary);
+  box-shadow: inset 0 0 0 2px rgba(59,130,246,.2);
+}
+
+.ttt-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 14px;
+}
+
+.ttt-btn {
+  background: var(--ttt-primary);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 700;
+  letter-spacing: .2px;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(59,130,246,.25);
+  transition: transform .08s ease, filter .2s ease, box-shadow .2s ease;
+}
+
+.ttt-btn:hover {
+  filter: brightness(1.03);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(59,130,246,.3);
+}
+
+.ttt-btn:active {
   transform: translateY(0);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.ttt-footer {
+  text-align: center;
+  padding: 16px;
+  color: #6b7280;
+  font-size: 12px;
+  border-top: 1px solid var(--ttt-border);
+  background: var(--ttt-surface);
 }
 
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 12px;
-  }
+/* Responsiveness */
+@media (max-width: 480px) {
+  .ttt-card { padding: 14px; }
+  .ttt-board { gap: 6px; padding: 6px; }
 }
